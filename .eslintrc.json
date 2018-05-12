@@ -3,5 +3,8 @@
   "globals": {
     "document": true,
     "window": true
+  },
+  "rules": {
+    "no-unused-vars": "warn"
   }
 }
