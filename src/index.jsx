@@ -1,3 +1,6 @@
-const a = () => console.log('a');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Root from './components/Root';
+import css from './index.scss';
 
-a();
+ReactDOM.render(<Root />, document.getElementById('root'));
