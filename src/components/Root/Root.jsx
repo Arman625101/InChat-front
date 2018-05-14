@@ -9,19 +9,20 @@ const socket = io('http://localhost:3000');
 class Root extends Component {
   constructor() {
     super();
-    this.state = {
-      users: [],
-    };
+    this.state = { users: [], addedUser: false };
     this.newUser = this.newUser.bind(this);
   }
-  newUser(name) {
-    socket.emit('user', name, { for: 'everyone' });
-    socket.on('user', this.setState({ users: [...this.state.users, { name }] }));
+  newUser(username) {
+    socket.emit('add user', username);
+    socket.on('add user', this.setState({ addedUser: true }));
+    socket.on('users', (users) => {
+      this.setState({ users }, () => console.log(this.state.users));
+    });
   }
   render() {
     return (
       <div>
-        {this.state.users.length ? (
+        {this.state.addedUser ? (
           <Chat users={this.state.users} />
         ) : (
           <Form onNewUser={this.newUser} />
