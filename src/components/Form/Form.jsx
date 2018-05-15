@@ -12,7 +12,7 @@ class Form extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.name.trim()) {
-      this.props.onNewUser(this.state.name.trim());
+      this.props.onUser({ name: this.state.name.trim() });
       this.setState({ name: '' });
     }
   }
@@ -35,7 +35,7 @@ class Form extends Component {
 }
 
 Form.propTypes = {
-  onNewUser: PropTypes.func.isRequired,
+  onUser: PropTypes.func.isRequired,
 };
 
 export default Form;
