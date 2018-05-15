@@ -4,29 +4,31 @@ import io from 'socket.io-client';
 import Form from '../Form';
 import Chat from '../Chat';
 
-const socket = io('http://localhost:3000');
-
 class Root extends Component {
   constructor() {
     super();
-    this.state = { users: [], addedUser: false };
-    this.newUser = this.newUser.bind(this);
+    this.state = { messages: [] };
+    this.newMessage = this.newMessage.bind(this);
+    this.socket = io('http://localhost:3000');
   }
-  newUser(username) {
-    socket.emit('add user', username);
-    socket.on('add user', this.setState({ addedUser: true }));
-    socket.on('users', (users) => {
-      this.setState({ users }, () => console.log(this.state.users));
+  componentDidMount() {
+    const getMessage = (text) => {
+      this.setState({ messages: [...this.state.messages, text] });
+    };
+
+    this.socket.on('get_message', (text) => {
+      getMessage(text);
     });
   }
+
+  newMessage(text) {
+    this.socket.emit('send_message', text);
+  }
+
   render() {
     return (
       <div>
-        {this.state.addedUser ? (
-          <Chat users={this.state.users} />
-        ) : (
-          <Form onNewUser={this.newUser} />
-        )}
+        <Chat messages={this.state.messages} onMessage={this.newMessage} />
       </div>
     );
   }
