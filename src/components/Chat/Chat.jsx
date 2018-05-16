@@ -27,10 +27,28 @@ class Chat extends Component {
       <div className="chat_holder">
         <div className="online_users">
           <h1>Online users</h1>
-          <ul>{this.props.users.map((user, i) => <li key={i}>{user.name}</li>)}</ul>
+          <ul>
+            {this.props.users.map((user, i) => (
+              <li className={user.name === this.props.currentUser.name ? 'active' : ''} key={i}>
+                {user.name}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="chat">
-          <ul>{this.props.messages.map((item, i) => <li key={i}>{item}</li>)}</ul>
+          <ul>
+            {this.props.messages.map((item, i) => (
+              <li
+                key={i}
+                className={item.sender.name === this.props.currentUser.name ? 'same_user' : ''}
+              >
+                <p>{item.text}</p>
+                <span>
+                  From {item.sender.name === this.props.currentUser.name ? 'you' : item.sender.name}
+                </span>
+              </li>
+            ))}
+          </ul>
           <input
             onKeyPress={this.handleSubmit}
             value={this.state.text}
@@ -46,6 +64,7 @@ class Chat extends Component {
 Chat.propTypes = {
   messages: PropTypes.arrayOf(Object).isRequired,
   users: PropTypes.arrayOf(Object).isRequired,
+  currentUser: PropTypes.objectOf(String).isRequired,
   onMessage: PropTypes.func.isRequired,
 };
 
