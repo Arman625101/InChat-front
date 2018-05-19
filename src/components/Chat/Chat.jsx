@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import css from './Chat.scss';
 
-/* eslint-disable react/no-array-index-key */
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -18,54 +17,41 @@ class Chat extends Component {
   }
   handleSubmit(event) {
     if (event.key === 'Enter' && this.state.text.trim()) {
-      this.props.onMessage(this.state.text);
+      this.props.newMessage(this.state.text);
       this.setState({ text: '' });
     }
   }
   render() {
     return (
-      <div className="chat_holder">
-        <div className="online_users">
-          <h1>Online users</h1>
-          <ul>
-            {this.props.users.map((user, i) => (
-              <li className={user.name === this.props.currentUser.name ? 'active' : ''} key={i}>
-                {user.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="chat">
-          <ul>
-            {this.props.messages.map((item, i) => (
-              <li
-                key={i}
-                className={item.sender.name === this.props.currentUser.name ? 'same_user' : ''}
-              >
-                <p>{item.text}</p>
-                <span>
-                  From {item.sender.name === this.props.currentUser.name ? 'you' : item.sender.name}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <input
-            onKeyPress={this.handleSubmit}
-            value={this.state.text}
-            type="text"
-            onChange={this.handleChange}
-          />
-        </div>
+      <div className="chat">
+        <ul>
+          {this.props.messages.map((item, i) => (
+            <li
+              key={i}
+              className={item.sender.name === this.props.currentUser.name ? 'same_user' : ''}
+            >
+              <p>{item.text}</p>
+              <span>
+                From {item.sender.name === this.props.currentUser.name ? 'you' : item.sender.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <input
+          type="text"
+          onKeyPress={this.handleSubmit}
+          value={this.state.text}
+          onChange={this.handleChange}
+        />
       </div>
     );
   }
 }
-/* eslint-enable */
+
 Chat.propTypes = {
   messages: PropTypes.arrayOf(Object).isRequired,
-  users: PropTypes.arrayOf(Object).isRequired,
   currentUser: PropTypes.objectOf(String).isRequired,
-  onMessage: PropTypes.func.isRequired,
+  newMessage: PropTypes.func.isRequired,
 };
 
 export default Chat;

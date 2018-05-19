@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import css from './Root.scss';
 import Form from '../Form';
 import Chat from '../Chat';
+import Clients from '../Clients';
 
 class Root extends Component {
   constructor() {
     super();
+    this.socket = io('http://localhost:3000');
     this.state = {
       messages: [],
       users: [],
       addedUser: false,
-      currentUser: null,
+      currentUser: {},
     };
 
     this.newMessage = this.newMessage.bind(this);
     this.newUser = this.newUser.bind(this);
-    this.socket = io('http://localhost:3000');
   }
   componentDidMount() {
     const getMessage = (data) => {
@@ -51,25 +52,18 @@ class Root extends Component {
   render() {
     const { users, messages, currentUser } = this.state;
     return (
-      <div>
+      <main>
         {this.state.addedUser ? (
-          <Chat
-            users={users}
-            currentUser={currentUser}
-            messages={messages}
-            onMessage={this.newMessage}
-          />
+          <React.Fragment>
+            <Clients currentUser={currentUser} users={users} />
+            <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
+          </React.Fragment>
         ) : (
-          <Form onUser={this.newUser} />
+          <Form newUser={this.newUser} />
         )}
-      </div>
+      </main>
     );
   }
 }
-
-Root.propTypes = {
-  // users: PropTypes.arrayOf(Object).isRequired,
-  // messages: PropTypes.arrayOf(Object).isRequired,
-};
 
 export default hot(module)(Root);

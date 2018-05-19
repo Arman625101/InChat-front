@@ -6,6 +6,7 @@
   },
   "rules": {
     "no-unused-vars": "warn",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "react/no-array-index-key": "off"
   }
 }

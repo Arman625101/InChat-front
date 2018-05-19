@@ -1,0 +1,29 @@
+.online_users {
+  border: 2px solid #000;
+  flex: 25%;
+  overflow: auto;
+  h1 {
+    font-size: 18px;
+    color: #303030;
+  }
+  ul {
+    list-style-type: none;
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding: 5px;
+      &.active {
+        &::after {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #14ff14;
+        }
+      }
+    }
+  }
+}
