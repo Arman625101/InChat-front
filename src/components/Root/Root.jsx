@@ -38,10 +38,11 @@ class Root extends Component {
     });
   }
 
-  newUser(user) {
-    this.setState({ currentUser: user });
-    this.socket.emit('add_user', user);
-    this.setState({ addedUser: true });
+  newUser(name) {
+    this.setState({ currentUser: { name } }, () => {
+      this.socket.emit('add_user', name);
+      this.setState({ addedUser: true });
+    });
   }
   newMessage(text) {
     this.socket.emit('send_message', { text, sender: this.state.currentUser });

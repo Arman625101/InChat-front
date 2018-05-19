@@ -12,7 +12,7 @@ class Form extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.name.trim()) {
-      this.props.onUser({ name: this.state.name.trim() });
+      this.props.onUser(this.state.name.trim());
       this.setState({ name: '' });
     }
   }
