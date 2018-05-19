@@ -1,2 +1,94 @@
+// colors
+$input-background: rgba(57, 63, 84, 0.8);
+$input-text-inactive: #7881a1;
+$input-text-active: #bfd2ff;
+
+// gradient animation
+@keyframes gradient {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
 form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .inp_holder {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    min-width: 300px;
+    margin: 0 auto;
+    border-radius: 2px;
+    padding: 1.4rem 0;
+    padding: 15px;
+    background: $input-background;
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      z-index: 999;
+      height: 2px;
+      border-bottom-left-radius: 2px;
+      border-bottom-right-radius: 2px;
+      background-position: 0% 0%;
+      background: linear-gradient(
+        to right,
+        #b294ff,
+        #57e6e6,
+        #feffb8,
+        #57e6e6,
+        #b294ff,
+        #57e6e6
+      );
+      background-size: 500% auto;
+      animation: gradient 3s linear infinite;
+    }
+    input {
+      flex-grow: 1;
+      color: $input-text-active;
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+      border-style: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      &::-webkit-input-placeholder {
+        color: $input-text-inactive;
+      }
+    }
+    button {
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      border: none;
+      outline: none;
+      color: $input-text-inactive;
+      font-size: 2.4rem;
+      line-height: 2.4rem;
+      vertical-align: middle;
+      transition: color 0.25s;
+      &:hover {
+        color: $input-text-active;
+      }
+    }
+  }
+  background-image: radial-gradient(
+    circle at 0% 0%,
+    #373b52,
+    #252736 51%,
+    #1d1e26
+  );
+  margin: 4px;
 }

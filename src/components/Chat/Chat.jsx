@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import css from './Chat.scss';
 
 class Chat extends Component {
@@ -16,7 +17,8 @@ class Chat extends Component {
     this.setState({ text: event.target.value });
   }
   handleSubmit(event) {
-    if (event.key === 'Enter' && this.state.text.trim()) {
+    event.preventDefault();
+    if (this.state.text.trim()) {
       this.props.newMessage(this.state.text);
       this.setState({ text: '' });
     }
@@ -37,12 +39,12 @@ class Chat extends Component {
             </li>
           ))}
         </ul>
-        <input
-          type="text"
-          onKeyPress={this.handleSubmit}
-          value={this.state.text}
-          onChange={this.handleChange}
-        />
+        <form onSubmit={this.handleSubmit} className="inp_holder">
+          <input type="text" value={this.state.text} onChange={this.handleChange} />
+          <button onClick={this.handleSubmit}>
+            <MdArrowForward />
+          </button>
+        </form>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import css from './Form.scss';
 
 class Form extends Component {
@@ -22,13 +23,17 @@ class Form extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input
-          value={this.state.name}
-          type="text"
-          placeholder="username"
-          onChange={this.handleChange}
-        />
-        <button onSubmit={this.handleSubmit}>Save</button>
+        <div className="inp_holder">
+          <input
+            value={this.state.name}
+            type="text"
+            placeholder="username"
+            onChange={this.handleChange}
+          />
+          <button onSubmit={this.handleSubmit}>
+            <MdArrowForward />
+          </button>
+        </div>
       </form>
     );
   }
