@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
-import css from './Chat.scss';
+import './Chat.scss';
 
 class Chat extends Component {
   constructor(props) {

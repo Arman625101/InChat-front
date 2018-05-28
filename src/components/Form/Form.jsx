@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
-import css from './Form.scss';
+import './Form.scss';
 
 class Form extends Component {
   constructor(props) {

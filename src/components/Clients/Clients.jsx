@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import css from './Clients.scss';
+import './Clients.scss';
 
 const Clients = ({ users, currentUser }) => (
   <div className="online_users">

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import io from 'socket.io-client';
-import css from './Root.scss';
+import './Root.scss';
 import Form from '../Form';
 import Chat from '../Chat';
 import Clients from '../Clients';
+
+import Auth from '../Auth';
 
 class Root extends Component {
   constructor() {
@@ -59,7 +61,8 @@ class Root extends Component {
             <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
           </React.Fragment>
         ) : (
-          <Form newUser={this.newUser} />
+          // <Form newUser={this.newUser} />
+          <Auth />
         )}
       </main>
     );
