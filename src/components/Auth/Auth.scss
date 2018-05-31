@@ -1,0 +1,206 @@
+div.auth {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: radial-gradient(
+    circle at 0% 0%,
+    #373b52,
+    #252736 51%,
+    #1d1e26
+  );
+  margin: 4px;
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    list-style-type: none;
+    width: 300px;
+    li {
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+      background: transparent;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-style: normal;
+      font-size: 0.725rem;
+      letter-spacing: 0.3em;
+      color: rgba(191, 210, 255, 0.9);
+      border-radius: 0;
+      padding: 10px;
+      transition: all 0.7s ease-out;
+      background: linear-gradient(
+        270deg,
+        rgba(132, 250, 176, 0.8),
+        rgba(143, 211, 244, 0.8),
+        rgba(117, 209, 255, 0),
+        rgba(132, 250, 176, 0)
+      );
+      background-position: 1% 50%;
+      background-size: 300% 300%;
+      text-decoration: none;
+      margin: 0.425rem;
+      border: none;
+      border: 1px solid rgba(191, 210, 255, 0.3);
+      &:hover {
+        color: #fff;
+        border: 1px solid rgba(223, 190, 106, 0);
+        background-position: 99% 50%;
+      }
+      &.active {
+        background: rgba(57, 63, 84, 0.8);
+        &:hover {
+        }
+      }
+    }
+  }
+  // colors
+  $input-background: rgba(57, 63, 84, 0.8);
+  $input-text-inactive: #7881a1;
+  $input-text-active: #bfd2ff;
+
+  // gradient animation
+  @keyframes gradient {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }
+
+  form.formik {
+    display: flex;
+    flex-direction: column;
+    .inp_holder {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+      min-width: 300px;
+      margin: 0 auto;
+      padding: 15px;
+      padding-bottom: 5px;
+      background: $input-background;
+      &:first-child {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+      }
+      &:last-child {
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+      .line {
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0px;
+          right: 0px;
+          bottom: 0px;
+          z-index: 999;
+          height: 2px;
+          background-position: 0% 0%;
+          background: linear-gradient(
+            to right,
+            #b294ff,
+            #57e6e6,
+            #feffb8,
+            #57e6e6,
+            #b294ff,
+            #57e6e6
+          );
+          background-size: 500% auto;
+          transform: scale(0);
+          transition: transform 0.4s;
+          animation: gradient 3s linear infinite;
+        }
+      }
+      input {
+        flex-grow: 1;
+        color: $input-text-active;
+        font-size: 1.2rem;
+        line-height: 2rem;
+        border-style: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        &::-webkit-input-placeholder {
+          color: $input-text-inactive;
+        }
+        &:focus {
+          & ~ .line {
+            &:after {
+              transform: scale(1);
+              transition: transform 0.4s;
+            }
+          }
+        }
+      }
+      button {
+        cursor: pointer;
+        padding: 0;
+        background: none;
+        border: none;
+        outline: none;
+        color: $input-text-inactive;
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+        vertical-align: middle;
+        transition: color 0.25s;
+        &:hover {
+          color: $input-text-active;
+        }
+      }
+    }
+    label {
+      font-size: 13px;
+      margin-bottom: 2px;
+      position: absolute;
+      top: 5px;
+      width: 100%;
+      text-align: center;
+      &.error {
+        color: red;
+      }
+    }
+    button {
+      flex: 1;
+      cursor: pointer;
+      margin: 0.375rem;
+      padding: 0 5px;
+      border: none;
+      height: 35px;
+      font-size: 1rem;
+      transition: all 0.7s ease-out;
+      background: linear-gradient(
+        180deg,
+        rgba(132, 250, 176, 0.8),
+        rgba(143, 211, 244, 0.8),
+        rgba(117, 209, 255, 0),
+        rgba(132, 250, 176, 0)
+      );
+      background-position: 1% 99%;
+      background-size: 300% 300%;
+      text-decoration: none;
+      margin: 0.425rem;
+      border: none;
+      border: 1px solid rgba(191, 210, 255, 0.3);
+      font-size: 0.725rem;
+      letter-spacing: 0.3em;
+      color: rgba(191, 210, 255, 0.9);
+      text-transform: uppercase;
+      outline: none;
+      &:hover {
+        color: #fff;
+        border: 1px solid rgba(223, 190, 106, 0);
+        background-position: 1% 1%;
+      }
+    }
+  }
+}
