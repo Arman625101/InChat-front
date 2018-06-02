@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
 import './Register.scss';
+import fetchApi from '../../../utils/fetchApi';
 
 /* eslint-disable */
 const RegisterForm = ({
@@ -103,7 +104,10 @@ const RegForm = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting }) => {
-    //backend call register
+    fetchApi(`${url}/auth/register`, {
+      body: values,
+      method: 'POST',
+    }).then(console.log);
   },
 })(RegisterForm);
 

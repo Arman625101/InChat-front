@@ -3,7 +3,8 @@
   "extends": "airbnb",
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "fetch": false
   },
   "rules": {
     "no-unused-vars": "warn",

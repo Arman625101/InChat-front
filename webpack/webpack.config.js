@@ -4,9 +4,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const development = require('./webpack.config.dev');
 const production = require('./webpack.config.prod');
 const PATHS = require('./PATHS');
+const webpack = require('webpack');
 require('dotenv').config();
 
-const { ENV } = process.env;
+const { ENV, URL } = process.env;
 const pathsToClean = ['dist'];
 
 const cleanOptions = {
@@ -26,7 +27,12 @@ const common = {
     modules: ['node_modules', PATHS.SRC],
     extensions: ['.js', '.jsx', '.json', '.scss'],
   },
-  plugins: [new CleanWebpackPlugin(pathsToClean, cleanOptions)],
+  plugins: [
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new webpack.DefinePlugin({
+      url: JSON.stringify(URL),
+    }),
+  ],
   optimization: {
     namedModules: true,
     splitChunks: {
@@ -82,7 +88,6 @@ const common = {
     ],
   },
 };
-
 module.exports = () => {
   const config = merge(common, ENV === 'DEV' ? development : production);
   return config;
