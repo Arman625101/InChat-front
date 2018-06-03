@@ -67,7 +67,6 @@ const LogForm = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting }) => {
-    console.log('Here1');
     fetchApi(`${url}/auth/login`, {
       method: 'POST',
       headers: {

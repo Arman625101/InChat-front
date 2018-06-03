@@ -113,17 +113,20 @@ const RegForm = withFormik({
       body: JSON.stringify(values),
     }).then(res => {
       if (res.data) {
+        const loginData = { email: res.data.email, password: values.password };
         fetchApi(`${url}/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username: res.data.username, password: res.data.password }),
-        }).then(res => console.log(res));
+          body: JSON.stringify(loginData),
+        }).then(res => {
+          res.error ? console.log(error) : localStorage.setItem('token', res.token);
+        });
       } else if (res.error && res.error.code === 11000) {
         setErrors({ email: 'User with that email or username exist' });
-        setSubmitting(false);
       }
+      setSubmitting(false);
     });
   },
 })(RegisterForm);

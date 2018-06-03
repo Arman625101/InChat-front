@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import io from 'socket.io-client';
+import { Router, Link } from '@reach/router';
 import './Root.scss';
-import Form from '../Form';
 import Chat from '../Chat';
 import Clients from '../Clients';
 
@@ -15,7 +15,7 @@ class Root extends Component {
     this.state = {
       messages: [],
       users: [],
-      addedUser: false,
+      addedUser: localStorage.getItem('token'),
       currentUser: {},
     };
 
@@ -47,6 +47,7 @@ class Root extends Component {
       this.setState({ addedUser: true });
     });
   }
+
   newMessage(text) {
     this.socket.emit('send_message', { text, sender: this.state.currentUser });
   }
@@ -55,15 +56,16 @@ class Root extends Component {
     const { users, messages, currentUser } = this.state;
     return (
       <main>
-        {this.state.addedUser ? (
-          <React.Fragment>
-            <Clients currentUser={currentUser} users={users} />
-            <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
-          </React.Fragment>
-        ) : (
-          // <Form newUser={this.newUser} />
-          <Auth />
-        )}
+        <Router>
+          {this.state.addedUser ? (
+            <React.Fragment>
+              <Clients currentUser={currentUser} users={users} />
+              <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
+            </React.Fragment>
+          ) : (
+            <Auth />
+          )}
+        </Router>
       </main>
     );
   }
