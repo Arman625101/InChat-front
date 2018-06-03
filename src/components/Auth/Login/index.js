@@ -1,3 +1,3 @@
-import LogForm from './Login';
+import LogForm from './LoginForm';
 
 export default LogForm;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
+import fetchApi from '../../../utils/fetchApi';
 import './Login.scss';
 
 /* eslint-disable */
@@ -66,7 +67,17 @@ const LogForm = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting }) => {
-    //backend call register
+    console.log('Here1');
+    fetchApi(`${url}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    }).then(res => {
+      localStorage.setItem('token', res.token);
+      setSubmitting(false);
+    });
   },
 })(LoginForm);
 

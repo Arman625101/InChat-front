@@ -103,11 +103,28 @@ const RegForm = withFormik({
     return errors;
   },
 
-  handleSubmit: (values, { setSubmitting }) => {
+  handleSubmit: (values, { setSubmitting, setErrors }) => {
+    let error = '';
     fetchApi(`${url}/auth/register`, {
-      body: values,
       method: 'POST',
-    }).then(console.log);
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    }).then(res => {
+      if (res.data) {
+        fetchApi(`${url}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: res.data.username, password: res.data.password }),
+        }).then(res => console.log(res));
+      } else if (res.error && res.error.code === 11000) {
+        setErrors({ email: 'User with that email or username exist' });
+        setSubmitting(false);
+      }
+    });
   },
 })(RegisterForm);
 

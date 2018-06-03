@@ -141,20 +141,12 @@ div.auth {
             }
           }
         }
-      }
-      button {
-        cursor: pointer;
-        padding: 0;
-        background: none;
-        border: none;
-        outline: none;
-        color: $input-text-inactive;
-        font-size: 2.4rem;
-        line-height: 2.4rem;
-        vertical-align: middle;
-        transition: color 0.25s;
-        &:hover {
-          color: $input-text-active;
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+          transition: background-color 5000s ease-in-out 0s;
+          -webkit-text-fill-color: #bfd2ff !important;
         }
       }
     }
@@ -200,6 +192,14 @@ div.auth {
         color: #fff;
         border: 1px solid rgba(223, 190, 106, 0);
         background-position: 1% 1%;
+      }
+      &:disabled,
+      &[disabled] {
+        border: 1px solid #999999;
+        color: #fff;
+        background-position: 1% 1%;
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
   }
