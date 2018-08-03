@@ -11,9 +11,11 @@ class Auth extends Component {
     };
     this.handleForm = this.handleForm.bind(this);
   }
+
   handleForm = type => (e) => {
     this.setState({ formType: type });
   };
+
   render() {
     const { formType } = this.state;
     return (

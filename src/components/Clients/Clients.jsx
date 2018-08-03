@@ -4,7 +4,9 @@ import './Clients.scss';
 
 const Clients = ({ users, currentUser }) => (
   <div className="online_users">
-    <h1>Online users</h1>
+    <h1>
+Online users
+    </h1>
     <ul>
       {users.map((user, i) => (
         <li className={user.name === currentUser.name ? 'active' : ''} key={i}>
