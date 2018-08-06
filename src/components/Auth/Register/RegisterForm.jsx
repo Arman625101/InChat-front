@@ -66,7 +66,7 @@ const RegisterForm = ({
       />
       <div className="line" />
     </div>
-    <button type="submit" disabled={isSubmitting}>
+    <button className="submit" type="submit" disabled={isSubmitting}>
       Register
     </button>
   </form>

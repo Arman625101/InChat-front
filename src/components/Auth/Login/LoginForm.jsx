@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
 import fetchApi from '../../../utils/fetchApi';
 import './Login.scss';
 
 /* eslint-disable */
+const notify = () => toast('Wow so easy !');
+
 const LoginForm = ({
   values,
   errors,
@@ -39,9 +42,10 @@ const LoginForm = ({
       />
       <div className="line" />
     </div>
-    <button type="submit" disabled={isSubmitting}>
+    <button className="submit" type="submit" disabled={isSubmitting}>
       Login
     </button>
+    <ToastContainer />
   </form>
 );
 
@@ -74,7 +78,11 @@ const LogForm = withFormik({
       },
       body: JSON.stringify(values),
     }).then(res => {
-      localStorage.setItem('token', res.token);
+      if (!res.failed) {
+        localStorage.setItem('token', res.token);
+      } else {
+        notify();
+      }
       setSubmitting(false);
     });
   },

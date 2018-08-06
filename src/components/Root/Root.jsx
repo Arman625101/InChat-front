@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import io from 'socket.io-client';
-import { Router, Link } from '@reach/router';
+// import { Router, Link } from '@reach/router';
 import './Root.scss';
 import Chat from '../Chat';
 import Clients from '../Clients';
@@ -22,11 +22,12 @@ class Root extends Component {
     this.newMessage = this.newMessage.bind(this);
     this.newUser = this.newUser.bind(this);
   }
+
   componentDidMount() {
     const getMessage = (data) => {
-      this.setState({
-        messages: [...this.state.messages, { text: data.text, sender: data.sender }],
-      });
+      this.setState(prevState => ({
+        messages: [...prevState.messages, { text: data.text, sender: data.sender }],
+      }));
     };
     const getUsers = (data) => {
       this.setState({ users: data });
@@ -56,16 +57,16 @@ class Root extends Component {
     const { users, messages, currentUser } = this.state;
     return (
       <main>
-        <Router>
-          {this.state.addedUser ? (
-            <React.Fragment>
-              <Clients currentUser={currentUser} users={users} />
-              <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
-            </React.Fragment>
-          ) : (
-            <Auth />
-          )}
-        </Router>
+        {/* <Router> */}
+        {this.state.addedUser ? (
+          <React.Fragment>
+            <Clients currentUser={currentUser} users={users} />
+            <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
+          </React.Fragment>
+        ) : (
+          <Auth />
+        )}
+        {/* </Router> */}
       </main>
     );
   }
