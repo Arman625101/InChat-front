@@ -1,10 +1,10 @@
 const merge = require('webpack-merge');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 const development = require('./webpack.config.dev');
 const production = require('./webpack.config.prod');
 const PATHS = require('./PATHS');
-const webpack = require('webpack');
 require('dotenv').config();
 
 const { ENV, URL } = process.env;

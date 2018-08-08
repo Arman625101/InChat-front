@@ -43,6 +43,7 @@ class Root extends Component {
   }
 
   newUser(name) {
+    console.log(('name', name));
     this.setState({ currentUser: { name } }, () => {
       this.socket.emit('add_user', name);
       this.setState({ addedUser: true });
@@ -54,17 +55,19 @@ class Root extends Component {
   }
 
   render() {
-    const { users, messages, currentUser } = this.state;
+    const {
+      users, messages, currentUser, addedUser,
+    } = this.state;
     return (
       <main>
         {/* <Router> */}
-        {this.state.addedUser ? (
+        {addedUser ? (
           <React.Fragment>
             <Clients currentUser={currentUser} users={users} />
             <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
           </React.Fragment>
         ) : (
-          <Auth />
+          <Auth newUser={this.newUser} />
         )}
         {/* </Router> */}
       </main>

@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
 import './Register.scss';
+import { ToastContainer, toast } from 'react-toastify';
 import fetchApi from '../../../utils/fetchApi';
 
+const notify = (text, type) => {
+  switch (type) {
+    case 'error':
+      toast.error(text);
+      break;
+    case 'success':
+    default:
+      toast(text);
+  }
+};
 /* eslint-disable */
 const RegisterForm = ({
   values,
@@ -69,6 +80,7 @@ const RegisterForm = ({
     <button className="submit" type="submit" disabled={isSubmitting}>
       Register
     </button>
+    <ToastContainer />
   </form>
 );
 
@@ -124,7 +136,7 @@ const RegForm = withFormik({
           res.error ? console.log(error) : localStorage.setItem('token', res.token);
         });
       } else if (res.error && res.error.code === 11000) {
-        setErrors({ email: 'User with that email or username exist' });
+        notify('User with that email or username already exist', 'error');
       }
       setSubmitting(false);
     });
