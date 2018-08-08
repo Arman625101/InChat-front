@@ -18,6 +18,10 @@ const notify = (text, type) => {
 
 const Login = props => (
   <Formik
+    initialValues={{
+      email: '',
+      password: '',
+    }}
     validate={values => {
       let errors = {};
 

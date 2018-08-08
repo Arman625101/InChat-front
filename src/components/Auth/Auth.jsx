@@ -17,8 +17,8 @@ class Auth extends Component {
     this.setState({ formType: type });
   };
 
-  handleNewUser = (name) => {
-    this.props.newUser(name);
+  handleNewUser = (email) => {
+    this.props.newUser(email);
   };
 
   render() {

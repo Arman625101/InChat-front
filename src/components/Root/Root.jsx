@@ -42,13 +42,12 @@ class Root extends Component {
     });
   }
 
-  newUser(name) {
-    console.log(('name', name));
-    this.setState({ currentUser: { name } }, () => {
-      this.socket.emit('add_user', name);
+  newUser = (email) => {
+    this.setState({ currentUser: { email } }, () => {
+      this.socket.emit('add_user', email);
       this.setState({ addedUser: true });
     });
-  }
+  };
 
   newMessage(text) {
     this.socket.emit('send_message', { text, sender: this.state.currentUser });
