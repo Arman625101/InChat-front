@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import './Root.scss';
 import Chat from '../Chat';
 import Clients from '../Clients';
+import fetchApi from '../../utils/fetchApi';
 
 import Auth from '../Auth';
 
@@ -15,7 +16,7 @@ class Root extends Component {
     this.state = {
       messages: [],
       users: [],
-      addedUser: localStorage.getItem('token'),
+      addedUser: !!localStorage.getItem('token'),
       currentUser: {},
     };
 
@@ -24,6 +25,7 @@ class Root extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     const getMessage = (data) => {
       this.setState(prevState => ({
         messages: [...prevState.messages, { text: data.text, sender: data.sender }],
@@ -40,13 +42,20 @@ class Root extends Component {
     this.socket.on('get_users', (data) => {
       getUsers(data);
     });
+    this.counter = 0;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   newUser = (email) => {
-    this.setState({ currentUser: { email } }, () => {
-      this.socket.emit('add_user', email);
-      this.setState({ addedUser: true });
-    });
+    fetchApi(`${url}/user/${email}`).then(res => console.log(res));
+    setTimeout(() => {
+      this.setState({ addedUser: true, currentUser: { email } }, () => {
+        this.socket.emit('add_user', email);
+      });
+    }, 1);
   };
 
   newMessage(text) {
@@ -59,16 +68,13 @@ class Root extends Component {
     } = this.state;
     return (
       <main>
-        {/* <Router> */}
-        {addedUser ? (
+        {addedUser && (
           <React.Fragment>
             <Clients currentUser={currentUser} users={users} />
             <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
           </React.Fragment>
-        ) : (
-          <Auth newUser={this.newUser} />
         )}
-        {/* </Router> */}
+        {!addedUser && <Auth newUser={this.newUser} />}
       </main>
     );
   }
