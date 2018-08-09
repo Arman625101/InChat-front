@@ -10,15 +10,15 @@ class Auth extends Component {
       formType: 'register',
     };
     this.handleForm = this.handleForm.bind(this);
-    this.handleNewUser = this.handleNewUser.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleForm = type => (e) => {
     this.setState({ formType: type });
   };
 
-  handleNewUser = (email) => {
-    this.props.newUser(email);
+  handleLogin = (email) => {
+    this.props.login(email);
   };
 
   render() {
@@ -37,7 +37,7 @@ class Auth extends Component {
             Login
           </li>
         </ul>
-        {formType === 'register' ? <RegForm /> : <LogForm newUser={this.handleNewUser} />}
+        {formType === 'register' ? <RegForm /> : <LogForm login={this.handleLogin} />}
       </div>
       /* eslint-enable */
     );

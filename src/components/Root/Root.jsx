@@ -16,16 +16,15 @@ class Root extends Component {
     this.state = {
       messages: [],
       users: [],
-      addedUser: !!localStorage.getItem('token'),
+      addedUser: localStorage.getItem('token'),
       currentUser: {},
     };
 
     this.newMessage = this.newMessage.bind(this);
-    this.newUser = this.newUser.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
-    this.mounted = true;
     const getMessage = (data) => {
       this.setState(prevState => ({
         messages: [...prevState.messages, { text: data.text, sender: data.sender }],
@@ -42,20 +41,30 @@ class Root extends Component {
     this.socket.on('get_users', (data) => {
       getUsers(data);
     });
-    this.counter = 0;
+
+    this.getCurrentUser();
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
+  componentWillUnmount() {}
+
+  getCurrentUser() {
+    console.log(this.state.addedUser);
   }
 
-  newUser = (email) => {
-    fetchApi(`${url}/user/${email}`).then(res => console.log(res));
-    setTimeout(() => {
-      this.setState({ addedUser: true, currentUser: { email } }, () => {
-        this.socket.emit('add_user', email);
-      });
-    }, 1);
+  login = (email) => {
+    const result = { email };
+    fetchApi(`${url}/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(result),
+    }).then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
+      this.socket.emit('add_user', email);
+    }));
+    // setTimeout(() => {
+
+    // }, 1);
   };
 
   newMessage(text) {
@@ -68,13 +77,14 @@ class Root extends Component {
     } = this.state;
     return (
       <main>
-        {addedUser && (
+        {addedUser ? (
           <React.Fragment>
             <Clients currentUser={currentUser} users={users} />
             <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
           </React.Fragment>
+        ) : (
+          <Auth login={this.login} />
         )}
-        {!addedUser && <Auth newUser={this.newUser} />}
       </main>
     );
   }

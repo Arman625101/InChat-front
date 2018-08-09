@@ -49,7 +49,7 @@ const Login = props => (
       }).then(res => {
         if (!res.failed) {
           localStorage.setItem('token', res.token);
-          props.newUser(values.email);
+          props.login(values.email);
         } else {
           notify(res.failed, 'error');
         }
