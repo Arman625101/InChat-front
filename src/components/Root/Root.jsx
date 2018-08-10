@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import io from 'socket.io-client';
 // import { Router, Link } from '@reach/router';
 import './Root.scss';
+import jwt from 'jsonwebtoken';
 import Chat from '../Chat';
 import Clients from '../Clients';
 import fetchApi from '../../utils/fetchApi';
@@ -42,29 +43,33 @@ class Root extends Component {
       getUsers(data);
     });
 
-    this.getCurrentUser();
+    if (this.state.addedUser) {
+      console.log('A');
+      this.getCurrentUser().then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
+        this.socket.emit('add_user', res.email);
+      }));
+    }
   }
 
   componentWillUnmount() {}
 
-  getCurrentUser() {
-    console.log(this.state.addedUser);
-  }
-
-  login = (email) => {
-    const result = { email };
-    fetchApi(`${url}/user`, {
+  getCurrentUser(email) {
+    const result = {};
+    const decoded = jwt.decode(this.state.addedUser);
+    result.email = email || decoded.email;
+    return fetchApi(`${url}/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(result),
-    }).then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
+    });
+  }
+
+  login = (email) => {
+    this.getCurrentUser(email).then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
       this.socket.emit('add_user', email);
     }));
-    // setTimeout(() => {
-
-    // }, 1);
   };
 
   newMessage(text) {

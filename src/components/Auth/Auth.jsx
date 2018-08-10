@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Auth.scss';
 import RegForm from './Register';
 import LogForm from './Login';
@@ -13,7 +14,7 @@ class Auth extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleForm = type => (e) => {
+  handleForm = type => () => {
     this.setState({ formType: type });
   };
 
@@ -43,5 +44,9 @@ class Auth extends Component {
     );
   }
 }
+
+Auth.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
 export default Auth;

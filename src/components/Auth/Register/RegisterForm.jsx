@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withFormik } from 'formik';
 import './Register.scss';
 import { ToastContainer, toast } from 'react-toastify';
@@ -133,12 +133,17 @@ const RegForm = withFormik({
           },
           body: JSON.stringify(loginData),
         }).then(res => {
-          res.error ? console.log(error) : localStorage.setItem('token', res.token);
+          if (!res.failed) {
+            localStorage.setItem('token', res.token);
+            props.login(loginData.email);
+          } else if (res.error && res.error.code === 11000) {
+            notify('User with that email or username already exist', 'error');
+          } else {
+            notify(res.failed, 'error');
+          }
+          setSubmitting(false);
         });
-      } else if (res.error && res.error.code === 11000) {
-        notify('User with that email or username already exist', 'error');
       }
-      setSubmitting(false);
     });
   },
 })(RegisterForm);
