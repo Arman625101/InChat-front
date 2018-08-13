@@ -13,7 +13,7 @@ import Auth from '../Auth';
 class Root extends Component {
   constructor() {
     super();
-    this.socket = io('http://localhost:3000');
+    this.socket = io(`${url}`);
     this.state = {
       messages: [],
       users: [],
@@ -44,9 +44,8 @@ class Root extends Component {
     });
 
     if (this.state.addedUser) {
-      console.log('A');
       this.getCurrentUser().then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
-        this.socket.emit('add_user', res.email);
+        this.socket.emit('add_user', res.username);
       }));
     }
   }
@@ -68,7 +67,7 @@ class Root extends Component {
 
   login = (email) => {
     this.getCurrentUser(email).then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
-      this.socket.emit('add_user', email);
+      this.socket.emit('add_user', res.username);
     }));
   };
 

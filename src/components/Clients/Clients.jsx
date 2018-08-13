@@ -9,7 +9,7 @@ Online users
     </h1>
     <ul>
       {users.map((user, i) => (
-        <li className={user.name === currentUser.name ? 'active' : ''} key={i}>
+        <li className={user.name === currentUser.username ? 'active' : ''} key={i}>
           {user.name}
         </li>
       ))}

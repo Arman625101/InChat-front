@@ -38,7 +38,11 @@ class Auth extends Component {
             Login
           </li>
         </ul>
-        {formType === 'register' ? <RegForm /> : <LogForm login={this.handleLogin} />}
+        {formType === 'register' ? (
+          <RegForm login={this.handleLogin} />
+        ) : (
+          <LogForm login={this.handleLogin} />
+        )}
       </div>
       /* eslint-enable */
     );

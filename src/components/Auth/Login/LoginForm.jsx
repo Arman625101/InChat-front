@@ -40,7 +40,21 @@ const Login = props => (
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
-       
+      fetchApi(`${url}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      }).then(res => {
+        if (!res.failed) {
+          localStorage.setItem('token', res.token);
+          props.login(values.email);
+        } else {
+          notify(res.failed, 'error');
+        }
+        setSubmitting(false);
+      });
     }}
     render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
       return (
