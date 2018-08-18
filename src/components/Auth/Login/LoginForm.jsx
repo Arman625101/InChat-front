@@ -27,7 +27,9 @@ const Login = props => (
 
       if (!values.email) {
         errors.email = 'Required';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      ) {
         errors.email = 'Invalid email address';
       }
 
@@ -40,13 +42,40 @@ const Login = props => (
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
-       
+      fetchApi(`${url}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      }).then(res => {
+        if (!res.failed) {
+          localStorage.setItem('token', res.token);
+          props.login(values.email);
+        } else {
+          notify(res.failed, 'error');
+        }
+        setSubmitting(false);
+      });
     }}
-    render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
+    render={({
+      values,
+      errors,
+      touched,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      isSubmitting,
+    }) => {
       return (
         <form className="formik login" onSubmit={handleSubmit}>
-          <div className={'inp_holder ' + (touched.email && errors.email ? 'error' : '')}>
-            {touched.email && errors.email && <label className="error">{errors.email}</label>}
+          <div
+            className={
+              'inp_holder ' + (touched.email && errors.email ? 'error' : '')
+            }
+          >
+            {touched.email &&
+              errors.email && <label className="error">{errors.email}</label>}
             <input
               type="email"
               name="email"
@@ -59,7 +88,9 @@ const Login = props => (
           </div>
           <div className="inp_holder">
             {touched.password &&
-              errors.password && <label className="error">{errors.password}</label>}
+              errors.password && (
+                <label className="error">{errors.password}</label>
+              )}
             <input
               type="password"
               name="password"

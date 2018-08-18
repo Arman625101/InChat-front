@@ -29,17 +29,22 @@ class Chat extends Component {
   render() {
     const { messages, currentUser } = this.props;
     const { text } = this.state;
+    console.log(messages);
     return (
       <div className="chat">
         <ul>
           {messages.map((item, i) => (
-            <li key={i} className={item.sender.name === currentUser.name ? 'same_user' : ''}>
-              <p>
-                {item.text}
-              </p>
+            <li
+              key={i}
+              className={
+                item.sender.username === currentUser.username ? 'same_user' : ''
+              }
+            >
+              <p>{item.text}</p>
               <span>
-                From
-                {item.sender.name === currentUser.name ? 'you' : item.sender.name}
+                {item.sender.username === currentUser.username
+                  ? 'From you'
+                  : `From ${item.sender.username}`}
               </span>
             </li>
           ))}
