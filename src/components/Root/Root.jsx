@@ -13,7 +13,7 @@ import Auth from '../Auth';
 class Root extends Component {
   constructor() {
     super();
-    this.socket = io('http://localhost:3000');
+    this.socket = io(`${url}` || 'https://inchat-back.herokuapp.com');
     this.state = {
       messages: [],
       users: [],
@@ -26,28 +26,36 @@ class Root extends Component {
   }
 
   componentDidMount() {
-    const getMessage = (data) => {
+    const getMessage = data => {
       this.setState(prevState => ({
-        messages: [...prevState.messages, { text: data.text, sender: data.sender }],
+        messages: [
+          ...prevState.messages,
+          { text: data.text, sender: data.sender },
+        ],
       }));
     };
-    const getUsers = (data) => {
+    const getUsers = data => {
       this.setState({ users: data });
     };
 
-    this.socket.on('get_messages', (data) => {
+    this.socket.on('get_messages', data => {
       getMessage(data);
     });
 
-    this.socket.on('get_users', (data) => {
+    this.socket.on('get_users', data => {
       getUsers(data);
     });
 
     if (this.state.addedUser) {
       console.log('A');
-      this.getCurrentUser().then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
-        this.socket.emit('add_user', res.email);
-      }));
+      this.getCurrentUser().then(res =>
+        this.setState(
+          { addedUser: true, currentUser: { username: res.username } },
+          () => {
+            this.socket.emit('add_user', res.email);
+          },
+        ),
+      );
     }
   }
 
@@ -66,10 +74,15 @@ class Root extends Component {
     });
   }
 
-  login = (email) => {
-    this.getCurrentUser(email).then(res => this.setState({ addedUser: true, currentUser: { username: res.username } }, () => {
-      this.socket.emit('add_user', email);
-    }));
+  login = email => {
+    this.getCurrentUser(email).then(res =>
+      this.setState(
+        { addedUser: true, currentUser: { username: res.username } },
+        () => {
+          this.socket.emit('add_user', email);
+        },
+      ),
+    );
   };
 
   newMessage(text) {
@@ -77,15 +90,17 @@ class Root extends Component {
   }
 
   render() {
-    const {
-      users, messages, currentUser, addedUser,
-    } = this.state;
+    const { users, messages, currentUser, addedUser } = this.state;
     return (
       <main>
         {addedUser ? (
           <React.Fragment>
             <Clients currentUser={currentUser} users={users} />
-            <Chat currentUser={currentUser} messages={messages} newMessage={this.newMessage} />
+            <Chat
+              currentUser={currentUser}
+              messages={messages}
+              newMessage={this.newMessage}
+            />
           </React.Fragment>
         ) : (
           <Auth login={this.login} />
