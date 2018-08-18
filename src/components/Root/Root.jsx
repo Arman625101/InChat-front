@@ -13,7 +13,11 @@ import Auth from '../Auth';
 class Root extends Component {
   constructor() {
     super();
-    this.socket = io(`${url}` || 'https://inchat-back.herokuapp.com');
+    this.socket = io(
+      location.hostname === 'localhost'
+        ? `${url}`
+        : 'https://inchat-back.herokuapp.com',
+    );
     this.state = {
       messages: [],
       users: [],
